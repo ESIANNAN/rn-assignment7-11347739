@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 
 export default function Homescreen({ navigation, cart, setCart }) {
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchMockData();
   }, []);
 
   const fetchMockData = () => {
-    
-    setTimeout(() => {
-      const mockItems = [
-        { id: 1, source: require('./assets/dress1.png'), title: 'OFFICE WEAR', description: 'Reversible Angora Cardigan', price: '$120' },
-        { id: 2, source: require('./assets/dress2.png'), title: 'BLACK', description: 'Reversible Angora Cardigan', price: '$125' },
-        { id: 3, source: require('./assets/dress3.png'), title: 'CHURCH WEAR', description: 'Reversible Angora Cardigan', price: '$130' },
-        { id: 4, source: require('./assets/dress4.png'), title: 'LAMEREI', description: 'Reversible Angora Cardigan', price: '$138' },
-        { id: 5, source: require('./assets/dress5.png'), title: '21WN', description: 'Reversible Angora Cardigan', price: '$140' },
-        { id: 6, source: require('./assets/dress6.png'), title: 'LOPO', description: 'Reversible Angora Cardigan', price: '$155' },
-        { id: 7, source: require('./assets/dress7.png'), title: '21WN', description: 'Reversible Angora Cardigan', price: '$125' },
-        { id: 8, source: require('./assets/dress8.jpg'), title: 'PLAY SUIT', description: 'Reversible Angora Cardigan', price: '$145' },
-      ];
-      setItems(mockItems);
-    }, 1000); 
+    fetch('https://fakestoreapi.com/products')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setItems(data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        Alert.alert('Error', 'Failed to fetch data. Please try again later.');
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleSearch = () => {
@@ -49,6 +51,14 @@ export default function Homescreen({ navigation, cart, setCart }) {
   const navigateToDetail = (item) => {
     navigation.navigate('ProductDetail', { item });
   };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -80,7 +90,7 @@ export default function Homescreen({ navigation, cart, setCart }) {
           <View style={styles.pictureRow}>
             {items.slice(0, 4).map(item => (
               <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigateToDetail(item)}>
-                <Image source={item.source} style={styles.picture} />
+                <Image source={{ uri: item.source }} style={styles.picture} />
                 <Text style={styles.form}>{item.title}</Text>
                 <Text style={styles.description}>{item.description}</Text>
                 <Text style={styles.cost}>{item.price}</Text>
@@ -93,7 +103,7 @@ export default function Homescreen({ navigation, cart, setCart }) {
           <View style={styles.pictureRow}>
             {items.slice(4).map(item => (
               <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigateToDetail(item)}>
-                <Image source={item.source} style={styles.picture} />
+                <Image source={{ uri: item.source }} style={styles.picture} />
                 <Text style={styles.form}>{item.title}</Text>
                 <Text style={styles.description}>{item.description}</Text>
                 <Text style={styles.cost}>{item.price}</Text>
@@ -164,7 +174,7 @@ const styles = StyleSheet.create({
     marginRight: 25,
   },
   pictureRow: {
-    marginLeft: 15,
+    marginLeft: 0,
   },
   picture: {
     borderRadius: 15,
@@ -210,5 +220,10 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
