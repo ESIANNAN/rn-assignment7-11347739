@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, Alert, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 
-export default function Homescreen({ navigation, cart, setCart }) {
+export default function Homescreen({ navigation }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     fetchMockData();
@@ -44,7 +45,7 @@ export default function Homescreen({ navigation, cart, setCart }) {
   };
 
   const addToCart = (item) => {
-    setCart([...cart, item]);
+    setCartItems([...cartItems, item]);
     alert(`${item.title} added to cart!`);
   };
 
@@ -52,17 +53,9 @@ export default function Homescreen({ navigation, cart, setCart }) {
     navigation.navigate('ProductDetail', { item });
   };
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.card} onPress={() => navigateToDetail(item)}>
-      <Image source={{ uri: item.image }} style={styles.picture} />
-      <Text style={styles.form}>{item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
-      <Text style={styles.cost}>${item.price.toFixed(2)}</Text>
-      <TouchableOpacity style={styles.addButton} onPress={() => addToCart(item)}>
-        <Text style={styles.addButtonText}>+</Text>
-      </TouchableOpacity>
-    </TouchableOpacity>
-  );
+  const navigateToCart = () => {
+    navigation.navigate('Cart', { cartItems });
+  };
 
   if (loading) {
     return (
@@ -83,7 +76,7 @@ export default function Homescreen({ navigation, cart, setCart }) {
           <TouchableOpacity onPress={handleSearch}>
             <Image source={require('./assets/Search.png')} style={styles.searchIcon} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+          <TouchableOpacity onPress={navigateToCart}>
             <Image source={require('./assets/shoppingBag.png')} style={styles.shoppingIcon} />
           </TouchableOpacity>
         </View>
@@ -98,13 +91,19 @@ export default function Homescreen({ navigation, cart, setCart }) {
           </TouchableOpacity>
         </View>
 
-        <FlatList
-          data={items}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-          numColumns={2}
-          contentContainerStyle={styles.pictureContainer}
-        />
+        <View style={styles.pictureContainer}>
+          {items.map(item => (
+            <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigateToDetail(item)}>
+              <Image source={{ uri: item.image }} style={styles.picture} />
+              <Text style={styles.form}>{item.title}</Text>
+              <Text style={styles.description}>{item.description}</Text>
+              <Text style={styles.cost}>${item.price.toFixed(2)}</Text>
+              <TouchableOpacity style={styles.addButton} onPress={() => addToCart(item)}>
+                <Text style={styles.addButtonText}>+</Text>
+              </TouchableOpacity>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
     </ScrollView>
   );
@@ -160,15 +159,17 @@ const styles = StyleSheet.create({
     height: 30,
   },
   pictureContainer: {
-    paddingVertical: 20,
-    paddingHorizontal: 5,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginTop: 30,
   },
   card: {
-    flex: 1,
     backgroundColor: '#f0f0f0',
     borderRadius: 10,
     padding: 10,
-    margin: 5,
+    marginBottom: 15,
+    width: '48%', 
     alignItems: 'center',
   },
   picture: {
@@ -196,7 +197,8 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: 'black',
-    padding: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderRadius: 25,
     marginTop: 10,
   },
