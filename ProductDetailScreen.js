@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   addToCartButton: {
-    backgroundColor: 'orange',
+    backgroundColor: 'black',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
