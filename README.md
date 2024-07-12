@@ -17,6 +17,7 @@ PRODUCT SCREEN WITH DESCRIPTION:
 ALERT WHEN THE ADD TO CART IS CLICKED:
 ![Screenshot 2024-07-12 223507](https://github.com/user-attachments/assets/07703d95-4ee6-4a48-82f4-ea6c12f4989e)
 
+![checkout](https://github.com/user-attachments/assets/b19363fa-b30a-4658-a649-624fbcb2d2d8)
 
 
 
