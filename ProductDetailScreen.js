@@ -1,22 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert } from 'react-native';
 
 export default function ProductDetailScreen({ route, navigation }) {
   const { item } = route.params;
 
   const addToCart = () => {
-    navigation.navigate('Homescreen', { action: 'add_to_cart', item: item });
+    // Assuming you have a function in the parent component to handle adding to cart
+    // Example: addToCart(item);
+    
+    // For demonstration purposes, show an alert message
+    Alert.alert('Success', `${item.title} added to cart!`);
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={item.source} style={styles.productImage} />
+        <Image source={{ uri: item.image }} style={styles.productImage} />
       </View>
       <ScrollView style={styles.detailsContainer}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.description}>{item.description}</Text>
-        <Text style={styles.price}>${item.price}</Text>
+        <Text style={styles.price}>${item.price.toFixed(2)}</Text>
         <TouchableOpacity style={styles.addToCartButton} onPress={addToCart}>
           <Text style={styles.addToCartButtonText}>Add to Cart</Text>
         </TouchableOpacity>
