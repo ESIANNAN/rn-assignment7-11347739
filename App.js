@@ -18,7 +18,7 @@ export default function App() {
         <Drawer.Screen name="Home" options={{ title: 'Home' }}>
           {props => (
             <Stack.Navigator initialRouteName="Home">
-              <Stack.Screen name="Home" options={{ title: 'Home' }}>
+              <Stack.Screen name="Home" options={{ title: '' }}>
                 {props => <HomeScreen {...props} cart={cart} setCart={setCart} />}
               </Stack.Screen>
               <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={{ title: 'Product Detail' }} />
