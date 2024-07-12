@@ -23,6 +23,7 @@ export default function Cart({ cart, setCart }) {
   };
 
   const handleCheckout = () => {
+    // Implement checkout functionality here
     console.log('Proceeding to checkout...');
   };
 
