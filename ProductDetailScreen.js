@@ -4,9 +4,8 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 export default function ProductDetailScreen({ route, navigation }) {
   const { item } = route.params;
 
-  // Function to add item to cart (similar to what you have in Homescreen)
+
   const addToCart = () => {
-    // Implement addToCart logic or simply navigate back to Homescreen with an add to cart action
     navigation.navigate('Homescreen', { action: 'add_to_cart', item: item });
   };
 
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 25,
     marginTop: 20,
     alignItems: 'center',
   },
