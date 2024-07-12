@@ -90,7 +90,7 @@ export default function Homescreen({ navigation, cart, setCart }) {
           <View style={styles.pictureRow}>
             {items.slice(0, 4).map(item => (
               <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigateToDetail(item)}>
-                <Image source={{ uri: item.source }} style={styles.picture} />
+                <Image source={{ uri: item.image }} style={styles.picture} />
                 <Text style={styles.form}>{item.title}</Text>
                 <Text style={styles.description}>{item.description}</Text>
                 <Text style={styles.cost}>{item.price}</Text>
@@ -100,19 +100,7 @@ export default function Homescreen({ navigation, cart, setCart }) {
               </TouchableOpacity>
             ))}
           </View>
-          <View style={styles.pictureRow}>
-            {items.slice(4).map(item => (
-              <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigateToDetail(item)}>
-                <Image source={{ uri: item.source }} style={styles.picture} />
-                <Text style={styles.form}>{item.title}</Text>
-                <Text style={styles.description}>{item.description}</Text>
-                <Text style={styles.cost}>{item.price}</Text>
-                <TouchableOpacity style={styles.addButton} onPress={() => addToCart(item)}>
-                  <Text style={styles.addButtonText}>+</Text>
-                </TouchableOpacity>
-              </TouchableOpacity>
-            ))}
-          </View>
+         
         </View>
       </View>
     </ScrollView>
