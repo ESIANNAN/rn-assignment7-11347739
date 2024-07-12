@@ -10,10 +10,10 @@ export default function Cart({ cart, setCart }) {
     cart.forEach(item => {
       total += parseFloat(item.price.replace('$', ''));
     });
-    return total.toFixed(2); // Return total formatted to 2 decimal places
+    return total.toFixed(2); 
   };
 
-  // Update total cost whenever cart changes
+  
   useEffect(() => {
     setTotalCost(calculateTotalCost());
   }, [cart]);
@@ -23,7 +23,7 @@ export default function Cart({ cart, setCart }) {
   };
 
   const handleCheckout = () => {
-    // Implement checkout functionality here
+  
     console.log('Proceeding to checkout...');
   };
 
