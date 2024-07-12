@@ -184,11 +184,6 @@ const styles = StyleSheet.create({
     fontFamily: 'serif',
     marginTop: 10,
   },
-  description: {
-    fontSize: 12,
-    fontFamily: 'serif',
-    color: 'grey',
-  },
   cost: {
     fontSize: 18,
     fontFamily: 'serif',
