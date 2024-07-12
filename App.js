@@ -18,17 +18,30 @@ export default function App() {
         <Drawer.Screen name="Home" options={{ title: 'Home' }}>
           {props => (
             <Stack.Navigator initialRouteName="Home">
-              <Stack.Screen name="Home" options={{ title: '' }}>
+              <Stack.Screen
+                name="Home"
+                options={{ title: '' }}
+              >
                 {props => <HomeScreen {...props} cart={cart} setCart={setCart} />}
               </Stack.Screen>
-              <Stack.Screen name="ProductDetail" component={ProductDetailScreen} options={{ title: 'Product Detail' }} />
+              <Stack.Screen
+                name="ProductDetail"
+                component={ProductDetailScreen}
+                options={{ title: 'Product Detail' }}
+              />
             </Stack.Navigator>
           )}
         </Drawer.Screen>
-        <Drawer.Screen name="Cart" options={{ title: 'Cart' }}>
-          {props => <Cart {...props} cart={cart} />}
-        </Drawer.Screen>
-
+        <Drawer.Screen
+          name="Cart"
+          component={Cart}
+          options={{ title: 'Cart' }}
+        />
+        <Drawer.Screen
+          name="ProductDetailSidebar"
+          component={ProductDetailScreen}
+          options={{ title: 'Product Detail' }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );
