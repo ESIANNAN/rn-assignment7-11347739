@@ -5,10 +5,7 @@ export default function ProductDetailScreen({ route, navigation }) {
   const { item } = route.params;
 
   const addToCart = () => {
-    // Assuming you have a function in the parent component to handle adding to cart
-    // Example: addToCart(item);
     
-    // For demonstration purposes, show an alert message
     Alert.alert('Success', `${item.title} added to cart!`);
   };
 
