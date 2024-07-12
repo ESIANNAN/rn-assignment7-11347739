@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 
 export default function ProductDetailScreen({ route, navigation }) {
   const { item } = route.params;
-
 
   const addToCart = () => {
     navigation.navigate('Homescreen', { action: 'add_to_cart', item: item });
@@ -12,16 +11,16 @@ export default function ProductDetailScreen({ route, navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={item.source} style={styles.productImage}/>
+        <Image source={item.source} style={styles.productImage} />
       </View>
-      <View style={styles.detailsContainer}>
+      <ScrollView style={styles.detailsContainer}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.description}>{item.description}</Text>
-        <Text style={styles.price}>{item.price}</Text>
+        <Text style={styles.price}>${item.price}</Text>
         <TouchableOpacity style={styles.addToCartButton} onPress={addToCart}>
           <Text style={styles.addToCartButtonText}>Add to Cart</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 25,
+    borderRadius: 5,
     marginTop: 20,
     alignItems: 'center',
   },
