@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, ActivityIndicator, Alert, FlatList } from 'react-native';
 
 export default function Homescreen({ navigation, cart, setCart }) {
   const [items, setItems] = useState([]);
@@ -52,6 +52,18 @@ export default function Homescreen({ navigation, cart, setCart }) {
     navigation.navigate('ProductDetail', { item });
   };
 
+  const renderItem = ({ item }) => (
+    <TouchableOpacity style={styles.card} onPress={() => navigateToDetail(item)}>
+      <Image source={{ uri: item.image }} style={styles.picture} />
+      <Text style={styles.form}>{item.title}</Text>
+      <Text style={styles.description}>{item.description}</Text>
+      <Text style={styles.cost}>${item.price.toFixed(2)}</Text>
+      <TouchableOpacity style={styles.addButton} onPress={() => addToCart(item)}>
+        <Text style={styles.addButtonText}>+</Text>
+      </TouchableOpacity>
+    </TouchableOpacity>
+  );
+
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -86,22 +98,13 @@ export default function Homescreen({ navigation, cart, setCart }) {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.pictureContainer}>
-          <View style={styles.pictureRow}>
-            {items.slice(0, 4).map(item => (
-              <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigateToDetail(item)}>
-                <Image source={{ uri: item.image }} style={styles.picture} />
-                <Text style={styles.form}>{item.title}</Text>
-                <Text style={styles.description}>{item.description}</Text>
-                <Text style={styles.cost}>{item.price}</Text>
-                <TouchableOpacity style={styles.addButton} onPress={() => addToCart(item)}>
-                  <Text style={styles.addButtonText}>+</Text>
-                </TouchableOpacity>
-              </TouchableOpacity>
-            ))}
-          </View>
-         
-        </View>
+        <FlatList
+          data={items}
+          renderItem={renderItem}
+          keyExtractor={item => item.id.toString()}
+          numColumns={2}
+          contentContainerStyle={styles.pictureContainer}
+        />
       </View>
     </ScrollView>
   );
@@ -157,27 +160,23 @@ const styles = StyleSheet.create({
     height: 30,
   },
   pictureContainer: {
-    flexDirection: 'row',
-    marginTop: 30,
-    marginRight: 25,
+    paddingVertical: 20,
+    paddingHorizontal: 5,
   },
-  pictureRow: {
-    marginLeft: 0,
+  card: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+    padding: 10,
+    margin: 5,
+    alignItems: 'center',
   },
   picture: {
     borderRadius: 15,
-    marginBottom: 15,
-    width: 150,
+    marginBottom: 10,
+    width: '100%',
     height: 150,
-  },
-  card: {
-    marginBottom: 15,
-    marginRight: 15,
-    backgroundColor: '#f0f0f0',
-    padding: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
+    resizeMode: 'cover',
   },
   form: {
     fontSize: 16,
@@ -199,8 +198,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     padding: 5,
     borderRadius: 25,
-    marginTop: 5,
-    alignItems: 'center',
+    marginTop: 10,
   },
   addButtonText: {
     color: '#fff',
