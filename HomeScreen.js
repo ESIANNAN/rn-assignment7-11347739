@@ -9,7 +9,7 @@ export default function Homescreen({ navigation, cart, setCart }) {
   }, []);
 
   const fetchMockData = () => {
-    // Simulating asynchronous fetch operation with setTimeout
+    
     setTimeout(() => {
       const mockItems = [
         { id: 1, source: require('./assets/dress1.png'), title: 'OFFICE WEAR', description: 'Reversible Angora Cardigan', price: '$120' },
@@ -22,7 +22,7 @@ export default function Homescreen({ navigation, cart, setCart }) {
         { id: 8, source: require('./assets/dress8.jpg'), title: 'PLAY SUIT', description: 'Reversible Angora Cardigan', price: '$145' },
       ];
       setItems(mockItems);
-    }, 1000); // Simulate delay with setTimeout
+    }, 1000); 
   };
 
   const handleSearch = () => {
